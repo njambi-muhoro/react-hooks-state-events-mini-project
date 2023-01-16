@@ -1,39 +1,33 @@
-import React,{useState} from "react";
+import React from "react";
 
-function NewTaskForm({categories, tasks, setData}) {
-  console.log(categories)
-
-  const [dataFromForm, setFormData] = useState({
-    text:"",
-    category:""
-  })
-function handleChange(e){
-  dataFromForm[e.target.name] = e.target.value
-  (setFormData({dataFromForm, [e.target.id]:e.target.value}))
-    //console.log(dataFromForm)
-}
-
-function handleClick(e){
-
-}
-
-function handleSubmit(e){
-  e.preventDefault();
-  setData([...tasks, dataFromForm])
-}
+function NewTaskForm({ categories, onTaskFormSubmit }) {
+  function handleSubmit(e) {
+    e.preventDefault();
+    let task_name = document.getElementById("new-task-forms").value
+    let category_name = document.getElementById("new-category").value;
+    console.log([task_name, category_name]);
+    onTaskFormSubmit({
+      text: task_name,
+      category: category_name,
+    });
+    document.getElementById("new-task-forms").value = "";
+    document.getElementById("new-category").value = "";
+  }
 
   return (
     <form onSubmit={handleSubmit} className="new-task-form">
       <label>
         Details
-        <input onChange={handleChange} value={dataFromForm.text} type="text" name="text" />
+        <input type="text" name="text" id="new-task-forms" />
       </label>
       <label>
         Category
-        <select onClick={handleClick} name="category">
-          {
-          categories.map((category, name)=>{
-           return <option  key={name}> {category} </option> })
+        <select name="category" id="new-category">
+          <option></option>
+          {/* the reason we are adding the first option is to make sure our selection box is empty */}
+          {categories.filter((category) =>category !== "All").map((category, name) => {
+              return <option key={name}> {category} </option>;
+            })
             }
         </select>
       </label>
@@ -43,5 +37,3 @@ function handleSubmit(e){
 }
 
 export default NewTaskForm;
-
-            

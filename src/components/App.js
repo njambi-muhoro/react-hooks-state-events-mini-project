@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
@@ -8,18 +8,34 @@ console.log("Here's the data you're working with");
 console.log({ CATEGORIES, TASKS });
 
 function App() {
-  const[data,setData]=useState([...TASKS])
+  const [categories, setCategories] = useState([...CATEGORIES]);
+  const [tasks, setTasks] = useState([...TASKS]);
 
-function handleChange(data){
-    setData(data)
-}
+  const [data, setData] = useState([...TASKS]);
+
+  function onTaskFormSubmit(task) {
+    setTasks([...tasks, task]);
+    setData([...data, task]);
+  }
+  // the second task is what we are aiming to chnge in the form
+
+  function handleChange(data) {
+    setData(data);
+  }
 
   return (
     <div className="App">
       <h2>My tasks</h2>
-      <CategoryFilter categories={CATEGORIES} tasks={TASKS} handleChange={handleChange} />
-      <NewTaskForm  categories={CATEGORIES} tasks={data} setData={setData}/>
-      <TaskList tasks={data}  />
+      <CategoryFilter
+        categories={categories}
+        tasks={tasks}
+        handleChange={handleChange}
+      />
+      <NewTaskForm
+        categories={categories}
+        onTaskFormSubmit={onTaskFormSubmit}
+      />
+      <TaskList tasks={data} />
     </div>
   );
 }
